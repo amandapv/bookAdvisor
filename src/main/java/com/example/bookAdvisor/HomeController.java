@@ -23,7 +23,6 @@ public class HomeController {
         LocalDate date = LocalDate.now();
         model.addAttribute("currentDate", date.getYear());
 
-
         return "indexView";
     }
 
