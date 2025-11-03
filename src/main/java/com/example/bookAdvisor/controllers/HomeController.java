@@ -1,4 +1,4 @@
-package com.example.bookAdvisor;
+package com.example.bookAdvisor.controllers;
 
 import java.time.LocalDate;
 import org.springframework.stereotype.Controller;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 public class HomeController {
     
-    @GetMapping({"/", "/home"})
+    @GetMapping({"", "/", "/home"})
     public String showHome(
         @RequestParam(required = false, defaultValue = "") String userName,
         Model model) {
@@ -33,5 +33,18 @@ public class HomeController {
         return "quienesSomos";
     }
     
+
+    // @GetMapping("/contacta")
+    // public String mostrarFormContacto() {
+    //     // proceso
+    //     return "quienesSomos";
+    // }
+
+
+    // @GetMapping("/contacta/submit")
+    // public String envioFormContacto() {
+    //     // proceso
+    //     return "quienesSomos";
+    // }
     
 }
