@@ -33,18 +33,4 @@ public class HomeController {
         return "quienesSomos";
     }
     
-
-    // @GetMapping("/contacta")
-    // public String mostrarFormContacto() {
-    //     // proceso
-    //     return "quienesSomos";
-    // }
-
-
-    // @GetMapping("/contacta/submit")
-    // public String envioFormContacto() {
-    //     // proceso
-    //     return "quienesSomos";
-    // }
-    
 }
