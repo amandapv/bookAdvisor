@@ -49,8 +49,8 @@ public class FormController {
 
         try {
             String destinatario = form.getEmail();
-            String asunto = "Formulario de contacto para: " + form.getNombre();
-            String cuerpoMensaje = "Ha solicitado realizar: " + form.getTipoContacto() + ". Comentarios: " + form.getComentario();
+            String asunto = "Ha solicitado realizar: " + form.getTipoContacto() + ". Comentarios: " + form.getComentario();
+            String cuerpoMensaje = "Formulario de contacto para: " + form.getNombre();
 
             emailService.sendEmail(destinatario, cuerpoMensaje, asunto); //enviar el email - si no lo consigue se lanzará un MessagingException
         } catch (Exception e) {
