@@ -1,41 +1,33 @@
 package com.example.bookAdvisor.controllers;
 
-import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+
+import com.example.bookAdvisor.domain.Libro;
+import com.example.bookAdvisor.services.LibroService;
+
 import org.springframework.ui.Model;
+
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.bookAdvisor.domain.Libro;
-import com.example.bookAdvisor.services.LibroService;
 
-@Controller // anotación controlador
+@Controller
 
 @RequestMapping("/public") //el resto del proyecto parte de /public (NO SÉ SI ES NECESARIO, SIGO LA ESTRUCTURA DE LA FOTO DEL EJEMPLO)
 
 
-public class HomeController {
+public class LibroController {
     
     @Autowired
     private LibroService libroService;
+
     private String txtMsg;
-
-
-    @GetMapping({"", "/", "/home"})
-    public String showHome(
-        @RequestParam(required = false, defaultValue = "") String userName, Model model) {
-        
-        model.addAttribute("userName", userName);
-        
-        LocalDate date = LocalDate.now();
-        model.addAttribute("currentDate", date.getYear());
-
-        return "indexView";
-    }
 
     @GetMapping("/{id}")
     public String showLibro(@PathVariable Long id, Model model) {
@@ -46,22 +38,8 @@ public class HomeController {
             txtMsg = e.getMessage();
             return "redirect:/public/";
         }
-        return "indexView";
-    }
-
-    @GetMapping("/nuevo")
-    public String showNewLibro(Model model) {
-        model.addAttribute("libroForm", new Libro());
-        return "newLibroView";
+        return "list";
     }
     
-    
 
-
-    @GetMapping("/quienes-somos")
-    public String quienesSomos() {
-        // proceso
-        return "quienesSomos";
-    }
-    
 }
