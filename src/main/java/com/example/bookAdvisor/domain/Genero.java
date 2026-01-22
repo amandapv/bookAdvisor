@@ -8,7 +8,7 @@ public enum Genero {
     AVENTURA("Aventura"),
     CIENCIA_FICCION("Ciencia Ficción"),
     TERROR("Terror"),
-    FANTASIA("Fantsaía"),
+    FANTASIA("Fantasía"),
     THRILLER("Thriller"),
     ROMANCE("Romance"),
     MISTERIO("Misterio");

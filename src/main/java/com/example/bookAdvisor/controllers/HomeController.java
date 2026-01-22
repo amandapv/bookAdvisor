@@ -37,26 +37,6 @@ public class HomeController {
         return "indexView";
     }
 
-    @GetMapping("/{id}")
-    public String showLibro(@PathVariable Long id, Model model) {
-        try {
-            Libro libro = libroService.obtenerPorId(id);
-            model.addAttribute("libro", libro);
-        } catch (Exception e) {
-            txtMsg = e.getMessage();
-            return "redirect:/public/";
-        }
-        return "indexView";
-    }
-
-    @GetMapping("/nuevo")
-    public String showNewLibro(Model model) {
-        model.addAttribute("libroForm", new Libro());
-        return "newLibroView";
-    }
-    
-    
-
 
     @GetMapping("/quienes-somos")
     public String quienesSomos() {

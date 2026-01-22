@@ -29,8 +29,20 @@ public class LibroController {
 
     private String txtMsg;
 
+    @GetMapping("/libro")
+    public String showListLibros(Model model ) {
+        model.addAttribute("listaLibros", libroService.obtenerTodos());
+        model.addAttribute("libroForm", new Libro()); //hay que añadirle el libro porque en el archivo libroListView lo requiere para el filtro de la busqueda
+        if (txtMsg != null) {
+            model.addAttribute("msg", txtMsg);
+            txtMsg = null;
+        }
+        return "libro/bookListView";
+    }
+    
+
     @GetMapping("/{id}")
-    public String showLibro(@PathVariable Long id, Model model) {
+    public String showElementLibro(@PathVariable Long id, Model model) {
         try {
             Libro libro = libroService.obtenerPorId(id);
             model.addAttribute("libro", libro);
@@ -38,8 +50,13 @@ public class LibroController {
             txtMsg = e.getMessage();
             return "redirect:/public/";
         }
-        return "list";
+        return "libroView";
     }
-    
+
+    @GetMapping("/nuevo")
+    public String showNewLibro(Model model) {
+        model.addAttribute("libroForm", new Libro());
+        return "newLibroView";
+    }
 
 }
