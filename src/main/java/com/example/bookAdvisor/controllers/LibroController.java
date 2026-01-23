@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import com.example.bookAdvisor.domain.Genero;
 import com.example.bookAdvisor.domain.Libro;
 import com.example.bookAdvisor.services.LibroService;
 
@@ -12,14 +13,16 @@ import org.springframework.ui.Model;
 
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
 
-@RequestMapping("/public") //el resto del proyecto parte de /public (NO SÉ SI ES NECESARIO, SIGO LA ESTRUCTURA DE LA FOTO DEL EJEMPLO)
+@RequestMapping("/public/libros") //el resto del proyecto parte de /public (NO SÉ SI ES NECESARIO, SIGO LA ESTRUCTURA DE LA FOTO DEL EJEMPLO)
 
 
 public class LibroController {
@@ -29,7 +32,7 @@ public class LibroController {
 
     private String txtMsg;
 
-    @GetMapping("/libro")
+    @GetMapping({"", "/"})
     public String showListLibros(Model model ) {
         model.addAttribute("listaLibros", libroService.obtenerTodos());
         model.addAttribute("libroForm", new Libro()); //hay que añadirle el libro porque en el archivo libroListView lo requiere para el filtro de la busqueda
@@ -58,5 +61,20 @@ public class LibroController {
         model.addAttribute("libroForm", new Libro());
         return "newLibroView";
     }
+
+    @PostMapping("/findByTitulo")
+    public String showFindByTematica(@ModelAttribute("libroForm") Libro libro, Model model) {
+        model.addAttribute("listaLibros", libroService.buscarPorTituloLibro(libro.getTitulo()));
+        return "libro/bookListView";
+    }
+
+    @GetMapping("/findByGenero/{genero}")
+    public String showFindByGenero(@PathVariable Genero genero, Model model) {
+        model.addAttribute("listaLibros", libroService.buscarPorGeneroLibro(genero));
+        model.addAttribute("generoSeleccionado", genero);
+        model.addAttribute("libroForm", new Libro());
+        return "libro/bookListView";
+    }
+
 
 }

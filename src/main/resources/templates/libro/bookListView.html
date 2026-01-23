@@ -1,28 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
-    <script src="/webjars/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <title>Libros CRUD</title>
-  </head>
+<head th:replace="~{/fragmentos.html::cabecera}"></head>
 <body>
+    <nav th:replace="~{/fragmentos.html::menu}"></nav>
+
     <h1>LIBROS</h1>
 
-    <form action="" method="post" th:action="@{/findByTitulo}" th:object="${libroForm}">
-        <label> Buscar por palabra en título 
-            <input type="text" name="">
-
+    <form action="#" method="post" th:action="@{/public/libros/findByTitulo}" th:object="${libroForm}">
+        <label> Buscar por palabra en título: 
+            <input type="text" name="titulo" th:field="*{titulo}">
         </label>
+        <input type="submit" value="Buscar">
     </form>
+
+    <br>
+    
+    <label>Filtro por género: 
+        <select id="genero" onchange="changeGenero();">
+            <option value="">Todos</option>
+            <option th:each="gen : ${T(com.example.bookAdvisor.domain.Genero).values()}"
+                    th:value="${gen}" th:text="${gen.nombreVisible}"
+                    th:selected="${generoSeleccionado != null && gen.name() == generoSeleccionado.name()}">
+            </option>
+        </select>
+
+        <script>
+          function changeGenero() {
+            const select = document.getElementById("genero");
+            if (select.value == "") {
+              window.location.href = "/public/libros/";
+            } else {
+              window.location.href = "/public/libros/findByGenero/"+select.value;
+            }
+          }
+        </script>
+    </label>
+
 
     <table>
         <thead>
             <tr>
                 <th>ID</th> <th>Portada</th>
-                <th>Título</th> <th>Autor</th>
+                <th>Título</th> <th>Autor</th> <th>genero</th>
                 <th>Sinopsis</th> <th>Editar</th> <th>Borrar</th>
             </tr>
         </thead>
@@ -31,9 +50,9 @@
                 <td th:text="${libro.id}">ID</td>
                 <td> <a href="https://imgs.search.brave.com/UBEsVePCQjbMvO11iVhBReeF9DoQa-My7dI9s6w18_M/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zdGF0/aWMuY2VnYWwuZXMv/aW1hZ2VuZXMvbWFy/Y2FkYXMvOTc4ODQ0/NS85Nzg4NDQ1MDE4/MDUuZ2lm.jpeg"></a>portada</td>
                 <td> <a href="@{/{id}(id=${libro.id})}" th:text="${libro.titulo}">titulo</a></td>
-                <td th:text="${libro.autor}"></td>
-                <td th:text="${libro.sinopsis}"></td>
-                <td th:text="${libro.idioma.nombreVisible}"></td>
+                <td th:text="${libro.autor}">autor</td>
+                <td th:text="${libro.sinopsis}">sinopsis</td>
+                <td th:text="${libro.idioma.nombreVisible}">idioma</td>
                 <td> <a href="@{/editar/{id} (id=${libro.id})}">Editar</a></td>
                 <td> <a href="@{/borrar/{id} (id=${libro.id})}">Borrar</a></td>
             </tr>

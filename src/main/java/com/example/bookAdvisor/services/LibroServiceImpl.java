@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.bookAdvisor.domain.Genero;
 import com.example.bookAdvisor.domain.Libro;
 
 @Service
@@ -52,5 +53,28 @@ public class LibroServiceImpl implements LibroService{
         }
     }
 
-    
+
+    //Filtros
+    public List<Libro> buscarPorTituloLibro(String tituloLibro) {
+        List<Libro> encontrados = new ArrayList<>();
+
+        for (Libro libro : repositorio) {
+            if (libro.getTitulo().toLowerCase().contains(tituloLibro.toLowerCase())) {
+                encontrados.add(libro);
+            }
+        }
+        return encontrados;
+    }
+
+
+    public List<Libro> buscarPorGeneroLibro(Genero genero) {
+        List<Libro> encontrados = new ArrayList<>();
+
+        for (Libro libro : repositorio) {
+            if (libro.getGenero() == genero) {
+                encontrados.add(libro);
+            }
+        }
+        return encontrados;
+    }
 }
