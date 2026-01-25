@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{/fragmentos.html::cabecera}"></head>
+<body>
+    <nav th:replace="~{/fragmentos.html::menu}"></nav>
+    
+    <h2>Editar libro</h2>
+
+    <form action="#" method="post" th:action="@{/public/libros/editar/{id}/submit(id=${libroForm.id})}" th:object="${libroForm}">
+
+        <input type="hidden" id="id" th:field="*{id}">
+
+        <label>Título:
+            <input type="text" id="titulo" th:field="*{titulo}">
+            <span th:classappend="${#fields.hasErrors('titulo')} ? 'cssError'" th:errors="*{titulo}"></span>
+        </label> <br><br>
+
+        <label>Año:
+            <input type="number" id="anho" th:field="*{anho}">
+            <span th:classappend="${#fields.hasErrors('anho')} ? 'cssError'" th:errors="*{anho}"></span>
+        </label> <br><br>
+
+
+        <label>Género:
+            <select id="genero">
+                <option 
+                    th:each="gen : ${T(com.example.bookAdvisor.domain.Genero).values()}" 
+                    th:value="${gen}" th:text="${gen.nombreVisible}">
+                </option>
+            </select>
+        </label>
+
+    </form>
+</body>

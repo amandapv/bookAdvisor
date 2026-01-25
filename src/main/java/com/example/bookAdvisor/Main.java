@@ -26,7 +26,7 @@ public class Main {
 			libroService.añadir(new Libro(2l, "Harry Potter y la piedra filosofal", 1997, Genero.FANTASIA, "J.K. Rowling", Idioma.ESPANHOL, "Un niño huérfano que vive con sus tíos, hasta que, en su undécimo cumpleaños, recibe una carta de admisión al Colegio Hogwarts de Magia y Hechicería.", LocalDate.now()));
 			libroService.añadir(new Libro(3l, "El nombre del viento", 2009, Genero.FANTASIA, "Patrick Rothfuss", Idioma.ESPANHOL, "Kvothe, un hombre legendario que todos creían muerto, vive en una posada apartada bajo el nombre de Kote.", LocalDate.now()));
 			libroService.añadir(new Libro(4l, "Las calles del parque del pánico", 2014, Genero.TERROR, "R.L. Stine", Idioma.ESPANHOL, "Niños atrapados en HorrorLandia creen que el Parque del Pánico es su única salida, pero descubren que es un lugar aún más peligroso.", LocalDate.now()));
-			libroService.añadir(new Libro(5l, "Orgullo y prejuicio", 2014, Genero.ROMANCE, "Jane Austen", Idioma.ESPANHOL, "Cinco hermanas en una familia de la clase media inglesa, cuya madre busca casarlas bien", LocalDate.now()));
+			libroService.añadir(new Libro(5l, "Orgullo y prejuicio", 2014, Genero.ROMANCE, "Jane Austen", Idioma.ESPANHOL, "Cinco hermanas en una familia de la clase media inglesa, cuya madre busca casarlas bien.", LocalDate.now()));
 		};
 	}
 

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{/fragmentos.html::cabecera}"></head>
+<body>
+    <nav th:replace="~{/fragmentos.html::menu}"></nav>
+    
+    <h3>Datos del libro: <span th:text="${libro.titulo}"></span></h3>
+
+    <table>
+        <tbody>
+            <tr>
+                <td>Id: </td>
+                <td th:text="${libro.id}">Id</td>
+            </tr>
+            <tr>
+                <td>Titulo: </td>
+                <td th:text="${libro.titulo}">Título</td>
+            </tr>
+            <tr>
+                <td>Género: </td>
+                <td th:text="${libro.genero.nombreVisible}">Género</td>
+            </tr>
+            <tr>
+                <td>Autor: </td>
+                <td th:text="${libro.autor}">Autor</td>
+            </tr>
+            <tr>
+                <td>Idioma: </td>
+                <td th:text="${libro.idioma.nombreVisible}">Idioma</td>
+            </tr>
+            <tr>
+                <td>Sinopsis: </td>
+                <td th:text="${libro.sinopsis}">Sinopsis</td>
+            </tr>
+            <tr>
+                <td>Fecha de alta: </td>
+                <td th:text="${libro.fechaAlta}">Fecha alta</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+
+    <a th:href="@{/public/libros/}">Volver</a>
+</body>
