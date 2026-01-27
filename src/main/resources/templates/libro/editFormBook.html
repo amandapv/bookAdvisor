@@ -22,13 +22,45 @@
 
 
         <label>Género:
-            <select id="genero">
+            <select id="genero" th:field="*{genero}">
                 <option 
                     th:each="gen : ${T(com.example.bookAdvisor.domain.Genero).values()}" 
                     th:value="${gen}" th:text="${gen.nombreVisible}">
                 </option>
             </select>
-        </label>
+        </label> <br><br>
 
+        <label>Autor:
+            <input type="text" id="autor" th:field="*{autor}">
+            <span th:classappend="${#fields.hasErrors('autor')} ? 'cssError'" th:errors="*{autor}"></span>
+        </label> <br><br>
+
+        <label>Idioma
+            <select id="idioma" th:field="*{idioma}">
+                <option
+                    th:each="idi : ${T(com.example.bookAdvisor.domain.Idioma).values()}"
+                    th:value="${idi}" th:text="${idi.nombreVisible}">
+                </option>
+            </select>
+        </label> <br><br>
+
+        <label>Sinopsis:
+            <textarea id="sinopsis" th:field="*{sinopsis}"></textarea>
+            <span th:classappend="${#fields.hasErrors('sinopsis')} ? 'cssError'" th:errors="*{sinopsis}"></span>
+        </label> <br><br>
+
+        <label>Fecha de alta:
+            <!-- <input type="date" id="fechaAlta" th:field="*{fechaAlta}"> -->
+            <input type="datetime" id="fechaAlta" th:field="*{fechaAlta}">
+            <span th:classappend="${#fields.hasErrors('fechaAlta')} ? 'cssError'" th:errors="*{fechaAlta}"></span>
+        </label> <br><br>
+
+        <input type="submit" value="Enviar"> <br><br>
+
+        <label for="enviar">
+            <input type="submit" value="Enviar">
+        </label> <br><br>
+
+        <a th:href="@{/public/libros}">Volver</a>
     </form>
 </body>

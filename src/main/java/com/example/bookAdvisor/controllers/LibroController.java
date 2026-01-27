@@ -66,6 +66,7 @@ public class LibroController {
         try {
             Libro libro = libroService.obtenerPorId(id);
             model.addAttribute("libroForm", libro);
+            model.addAttribute("generoSeleccionado", libro.getGenero());
         } catch (Exception e) {
             txtMsg= e.getMessage();
             return "redirect:/public/libros/";
