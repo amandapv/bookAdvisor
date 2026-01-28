@@ -51,7 +51,7 @@
         <tbody>
             <tr th:each="libro :${listaLibros}">
                 <td th:text="${libro.id}">ID</td>
-                <td> <a href="https://imgs.search.brave.com/UBEsVePCQjbMvO11iVhBReeF9DoQa-My7dI9s6w18_M/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zdGF0/aWMuY2VnYWwuZXMv/aW1hZ2VuZXMvbWFy/Y2FkYXMvOTc4ODQ0/NS85Nzg4NDQ1MDE4/MDUuZ2lm.jpeg"></a>portada</td>
+                <td> <img src="@{/portadas/{nombre}(nombre=${libro.portada})}" alt="portada" style="width: 80px; height: auto;"></td>
                 <td> <a th:href="@{/public/libros/{id}(id=${libro.id})}" th:text="${libro.titulo}">titulo</a></td>
                 <td th:text="${libro.autor}">autor</td>
                 <td th:text="${libro.sinopsis}">sinopsis</td>
@@ -61,6 +61,14 @@
             </tr>
         </tbody>
     </table>
+
+    <br><br>
+
+    <div th:if="${msg!=null}">
+        <p class="alert alert-primary" role="alert" th:text="${msg}">errores</p>
+    </div>
+
+    <a th:href="@{/public/libros/nuevo}">Nuevo libro</a>
 
 </body>
 </html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{/fragmentos.html::cabecera}"></head>
+<body>
+    <nav th:replace="~{/fragmentos.html::menu}"></nav>
+    
+    <form action="#" method="post" enctype="multipart/form-data" th:action="@{/public/libros/nuevo/submit}" th:object="${libroForm}">
+        
+        <h1>Nuevo libro</h1> <br>
+        
+        <label>Id:
+            <input type="number" id="id" th:field="*{id}">
+            <span classappend="${#fields.hasErrors('id')} ? 'cssError'" th:errors="*{id}"></span>
+        </label> <br><br>
+
+        <label>Título:
+            <input type="text" id="titulo" th:field="*{titulo}">
+            <span classappend="${#fields.hasErrors('titulo')} ? 'cssError'" th:errors="*{titulo}"></span>
+        </label> <br><br>
+
+        <label>Año:
+            <input type="number" id="anho" th:field="*{anho}">
+            <span classappend="${#fields.hasErrors('anho')} ? 'cssError'" th:errors="*{anho}"></span>
+        </label> <br><br>
+
+        <label>Autor:
+            <input type="text" id="autor" th:field="*{autor}">
+            <span classappend="${#fields.hasErrors('autor')} ? 'cssError'" th:errors="*{autor}"></span>
+        </label> <br><br>
+
+        <label>Sinopsis:
+            <textarea id="sinopsis" th:field="*{sinopsis}"></textarea>
+            <span classappend="${#fields.hasErrors('sinopsis')} ? 'cssError'" th:errors="*{sinopsis}"></span>
+        </label> <br><br>
+
+        <label>Idioma:
+            <select id="idioma" th:field="*{idioma}">
+                <option value="porDefecto">Seleccione un idioma</option>
+                <option
+                    th:each="idi : ${T(com.example.bookAdvisor.domain.Idioma).values()}"
+                    th:value="${idi}" th:text="${idi.nombreVisible}">
+                </option>
+            </select>
+        </label> <br><br>
+
+        <label>Género:
+            <select id="genero" th:field="*{genero}">
+                <option value="porDefecto">Seleccione un género</option>
+                <option
+                    th:each="gen : ${T(com.example.bookAdvisor.domain.Genero).values()}" 
+                    th:value="${gen}" th:text="${gen.nombreVisible}">
+                </option>
+            </select>
+        </label> <br><br>
+
+        <input type="hidden" th:field="*{fechaAlta}">
+
+        <label>Añadir una portada 
+            <input type="file" id="portadaFichero" th:field="image/*"> 
+        </label> <br><br>
+        
+        <input type="submit" value="Enviar"> <br><br>
+
+        <a th:href="@{/public/libros}">Volver</a>
+        
+    </form>
+</body>

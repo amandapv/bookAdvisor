@@ -49,18 +49,14 @@
             <span th:classappend="${#fields.hasErrors('sinopsis')} ? 'cssError'" th:errors="*{sinopsis}"></span>
         </label> <br><br>
 
-        <label>Fecha de alta:
+        <!-- <label>Fecha de alta: -->
             <!-- <input type="date" id="fechaAlta" th:field="*{fechaAlta}"> -->
-            <input type="datetime" id="fechaAlta" th:field="*{fechaAlta}">
-            <span th:classappend="${#fields.hasErrors('fechaAlta')} ? 'cssError'" th:errors="*{fechaAlta}"></span>
-        </label> <br><br>
+            <input type="hidden" id="fechaAlta" th:field="*{fechaAlta}">
+            <!-- <span th:classappend="${#fields.hasErrors('fechaAlta')} ? 'cssError'" th:errors="*{fechaAlta}"></span> -->
+        <!-- </label> <br><br> -->
 
         <input type="submit" value="Enviar"> <br><br>
-
-        <label for="enviar">
-            <input type="submit" value="Enviar">
-        </label> <br><br>
-
+        
         <a th:href="@{/public/libros}">Volver</a>
     </form>
 </body>

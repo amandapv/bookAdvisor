@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Controller
@@ -57,9 +59,26 @@ public class LibroController {
     @GetMapping("/nuevo")
     public String showNewLibro(Model model) {
         model.addAttribute("libroForm", new Libro());
-        return "newLibroView";
+        return "libro/newLibroView";
     }
 
+    @PostMapping("/nuevo/submit")
+    public String showNewSubmit(@Valid @ModelAttribute("libroForm") Libro libroForm, BindingResult bindingResul, @RequestParam("portadaFichero") MultipartFile fichero) {
+        if (bindingResul.hasErrors()) {
+            // model.addAttribute("libroForm", libroForm); // No hace falta añadir al model si el nombre coincide con @ModelAttribute
+            return "/libro/newLibroView";
+        }
+        try {
+            String nombreImagen = libroService.añadirPortadaLibro(fichero);
+            // Le ponemos el nombre resultante al objeto libro
+            libroForm.setPortada(nombreImagen);
+            libroService.añadir(libroForm);
+        } catch (Exception e) {
+            txtMsg = e.getMessage();
+            return "redirect:/public/libros/";
+        }
+        return "redirect:/public/libros/"; //no retorno a libro/newLibroView" porque no quiero mostrar esa vista, ya que esto es el post, es decir, una vez que le de a crear el libro, me enviará a la vista de todos los libros
+    }
 
     @GetMapping("/editar/{id}")
     public String showEditForm(@PathVariable long id, Model model) {
@@ -88,6 +107,18 @@ public class LibroController {
             return "redirect:/public/libros/";
         }
         return "redirect:/public/libros/";
+    }
+
+    @GetMapping("/borrar/{id}")
+    public String showDelete(@PathVariable long id) {
+        try {
+            libroService.borrar(id);
+            txtMsg = "Operación realizada con éxito";
+        } catch (Exception e) {
+            txtMsg = e.getMessage();
+            return "redirect:/public/libros/";
+        }
+        return "redirect:/public/libros";
     }
 
 

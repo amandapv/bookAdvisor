@@ -1,9 +1,14 @@
 package com.example.bookAdvisor.services;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.bookAdvisor.domain.Genero;
 import com.example.bookAdvisor.domain.Libro;
@@ -11,6 +16,7 @@ import com.example.bookAdvisor.domain.Libro;
 @Service
 public class LibroServiceImpl implements LibroService{
     private List<Libro> repositorio = new ArrayList<>();
+    private final String DIRECTORIO_PORTADAS = "src/main/resources/static/portadas/";
 
     //CRUD
     public List<Libro> obtenerTodos() {
@@ -77,4 +83,27 @@ public class LibroServiceImpl implements LibroService{
         }
         return encontrados;
     }
+
+
+    //lectura de ficheros para añadir portadas a los libros
+    public String añadirPortadaLibro(MultipartFile fichero) throws RuntimeException {
+        if (fichero == null || fichero.isEmpty()) {
+            return "DEFAULT.png"; // O una imagen por defecto
+        }
+
+        try {
+            // 1. Generar un nombre único para evitar que fotos con el mismo nombre se borren
+            String nombreUnico = System.currentTimeMillis() + "_" + fichero.getOriginalFilename();
+
+            // 2. Definir ruta y guardar
+            Path rutaAbsoluta = Paths.get(DIRECTORIO_PORTADAS).toAbsolutePath().resolve(nombreUnico);
+            Files.write(rutaAbsoluta, fichero.getBytes());
+
+            return nombreUnico; // Devolvemos el nombre para guardarlo en la base de datos
+            
+        } catch (IOException e) {
+            throw new RuntimeException("Error al guardar la imagen: " + e.getMessage());
+        }
+    }
+
 }
