@@ -51,7 +51,7 @@
         <tbody>
             <tr th:each="libro :${listaLibros}">
                 <td th:text="${libro.id}">ID</td>
-                <td> <img src="@{/portadas/{nombre}(nombre=${libro.portada})}" alt="portada" style="width: 80px; height: auto;"></td>
+                <td> <img th:src="@{/portadas/{nombre}(nombre=${libro.portada})}" alt="portada" style="width: 80px; height: auto;"></td>
                 <td> <a th:href="@{/public/libros/{id}(id=${libro.id})}" th:text="${libro.titulo}">titulo</a></td>
                 <td th:text="${libro.autor}">autor</td>
                 <td th:text="${libro.sinopsis}">sinopsis</td>
