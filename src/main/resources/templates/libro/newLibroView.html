@@ -10,47 +10,49 @@
         
         <label>Id:
             <input type="number" id="id" th:field="*{id}">
-            <span classappend="${#fields.hasErrors('id')} ? 'cssError'" th:errors="*{id}"></span>
+            <span th:classappend="${#fields.hasErrors('id')} ? 'cssError'" th:errors="*{id}"></span>
         </label> <br><br>
 
         <label>Título:
             <input type="text" id="titulo" th:field="*{titulo}">
-            <span classappend="${#fields.hasErrors('titulo')} ? 'cssError'" th:errors="*{titulo}"></span>
+            <span th:classappend="${#fields.hasErrors('titulo')} ? 'cssError'" th:errors="*{titulo}"></span>
         </label> <br><br>
 
         <label>Año:
             <input type="number" id="anho" th:field="*{anho}">
-            <span classappend="${#fields.hasErrors('anho')} ? 'cssError'" th:errors="*{anho}"></span>
+            <span th:classappend="${#fields.hasErrors('anho')} ? 'cssError'" th:errors="*{anho}"></span>
         </label> <br><br>
 
         <label>Autor:
             <input type="text" id="autor" th:field="*{autor}">
-            <span classappend="${#fields.hasErrors('autor')} ? 'cssError'" th:errors="*{autor}"></span>
+            <span th:classappend="${#fields.hasErrors('autor')} ? 'cssError'" th:errors="*{autor}"></span>
         </label> <br><br>
 
         <label>Sinopsis:
             <textarea id="sinopsis" th:field="*{sinopsis}"></textarea>
-            <span classappend="${#fields.hasErrors('sinopsis')} ? 'cssError'" th:errors="*{sinopsis}"></span>
+            <span th:classappend="${#fields.hasErrors('sinopsis')} ? 'cssError'" th:errors="*{sinopsis}"></span>
         </label> <br><br>
 
         <label>Idioma:
             <select id="idioma" th:field="*{idioma}">
-                <option value="porDefecto">Seleccione un idioma</option>
+                <option value="">Seleccione un idioma</option>
                 <option
                     th:each="idi : ${T(com.example.bookAdvisor.domain.Idioma).values()}"
                     th:value="${idi}" th:text="${idi.nombreVisible}">
                 </option>
             </select>
+            <span th:classappend="${#fields.hasErrors('idioma')} ? 'cssError'" th:errors="*{idioma}"></span>
         </label> <br><br>
 
         <label>Género:
             <select id="genero" th:field="*{genero}">
-                <option value="porDefecto">Seleccione un género</option>
+                <option value="">Seleccione un género</option>
                 <option
                     th:each="gen : ${T(com.example.bookAdvisor.domain.Genero).values()}" 
                     th:value="${gen}" th:text="${gen.nombreVisible}">
                 </option>
             </select>
+            <span th:classappend="${#fields.hasErrors('genero')} ? 'cssError'" th:errors="*{genero}"></span>
         </label> <br><br>
 
         <input type="hidden" th:field="*{fechaAlta}">

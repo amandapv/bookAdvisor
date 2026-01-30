@@ -55,6 +55,8 @@
             <!-- <span th:classappend="${#fields.hasErrors('fechaAlta')} ? 'cssError'" th:errors="*{fechaAlta}"></span> -->
         <!-- </label> <br><br> -->
 
+        <input type="hidden" id="portada" th:field="*{portada}"> <!-- en oculto para que no pierda la portada, otra opción es que se pueda editar ésta -->
+
         <input type="submit" value="Enviar"> <br><br>
         
         <a th:href="@{/public/libros}">Volver</a>

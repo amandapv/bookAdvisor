@@ -30,10 +30,12 @@ public class Libro {
 
     private int anho;
 
+    @NotNull(message = "Debe seleccionar un idioma")
     private Genero genero;
 
     private String autor;
 
+    @NotNull(message = "Debe seleccionar un idioma")
     private Idioma idioma;
     
     private String sinopsis;

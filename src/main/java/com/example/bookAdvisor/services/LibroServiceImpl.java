@@ -16,7 +16,7 @@ import com.example.bookAdvisor.domain.Libro;
 @Service
 public class LibroServiceImpl implements LibroService{
     private List<Libro> repositorio = new ArrayList<>();
-    private final String DIRECTORIO_PORTADAS = "src/main/resources/static/portadas/";
+    private final Path DIRECTORIO_PORTADAS = Paths.get("portadas");
 
     //CRUD
     public List<Libro> obtenerTodos() {
@@ -92,15 +92,18 @@ public class LibroServiceImpl implements LibroService{
         }
 
         try {
+            // Asegurarnos de que exista el directorio externo de portadas
+            Files.createDirectories(DIRECTORIO_PORTADAS.toAbsolutePath());
+
             // 1. Generar un nombre único para evitar que fotos con el mismo nombre se borren
             String nombreUnico = System.currentTimeMillis() + "_" + fichero.getOriginalFilename();
 
             // 2. Definir ruta y guardar
-            Path rutaAbsoluta = Paths.get(DIRECTORIO_PORTADAS).toAbsolutePath().resolve(nombreUnico);
+            Path rutaAbsoluta = DIRECTORIO_PORTADAS.toAbsolutePath().resolve(nombreUnico);
             Files.write(rutaAbsoluta, fichero.getBytes());
 
             return nombreUnico; // Devolvemos el nombre para guardarlo en la base de datos
-            
+
         } catch (IOException e) {
             throw new RuntimeException("Error al guardar la imagen: " + e.getMessage());
         }
