@@ -2,11 +2,18 @@ package com.example.bookAdvisor.domain;
 
 import java.time.LocalDate;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import jakarta.validation.constraints.Min;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -17,20 +24,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor //en cuanto se añade el @AllArgsConstructor, Java "borra" el constructor vacío automático. Pero Hibernate/JPA necesita el constructor vacío para poder recuperar datos de la base de datos. Sin esta, tu aplicación daría error al intentar leer de la BD.
 @EqualsAndHashCode(of = "id")
 
-
+@Entity // Le dice a JPA: "Esto es una tabla"
 public class Libro {
 
-    @NotNull(message = "El ID no puede estar vacío")
-    @Min(value = 0, message = "El ID no puede ser inferior a 0")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotEmpty(message = "El título no puede estar vacío")
     private String titulo;
 
     private int anho;
-
-    @NotNull(message = "Debe seleccionar un idioma")
-    private Genero genero;
 
     private String autor;
 
@@ -43,6 +47,10 @@ public class Libro {
     private LocalDate fechaAlta = LocalDate.now();
 
     private String portada = "DEFAULT.png"; //así si no establezco una portada por defecto se establece la por defecto
+
+    @NotNull(message = "Debes seleccionar un género")
+    @ManyToOne
+    private Genero genero;
 
 
     // Constructor manual SIN la fecha para hacer automáticamente el LocalDate.now()

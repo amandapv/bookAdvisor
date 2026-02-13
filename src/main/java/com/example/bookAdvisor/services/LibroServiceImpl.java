@@ -7,14 +7,21 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.bookAdvisor.domain.Genero;
 import com.example.bookAdvisor.domain.Libro;
+import com.example.bookAdvisor.domain.LibroDTO;
 
 @Service
 public class LibroServiceImpl implements LibroService{
+
+    @Autowired
+    private ModelMapper modelMapper; //llamo a mi modelMapper definido en la clase ModelMapperConfig en la carpeta config para poder convertir entidades a DTOs
+
     private List<Libro> repositorio = new ArrayList<>();
     private final Path DIRECTORIO_PORTADAS = Paths.get("portadas");
 
@@ -107,6 +114,15 @@ public class LibroServiceImpl implements LibroService{
         } catch (IOException e) {
             throw new RuntimeException("Error al guardar la imagen: " + e.getMessage());
         }
+    }
+
+    //método para convertir la entidad Libro a DTO
+    public List<LibroDTO> convertLibroToDto (List<Libro>listaLibros) {
+        List<LibroDTO> listaLibrosDTO = new ArrayList<>();
+        for(Libro libro : listaLibros) {
+            listaLibrosDTO.add(modelMapper.map(libro, LibroDTO.class)); 
+        }
+        return listaLibrosDTO;
     }
 
 }

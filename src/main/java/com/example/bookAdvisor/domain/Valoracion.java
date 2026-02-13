@@ -4,7 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,23 +16,16 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(of = "id")
 
 @Entity
-public class Genero {
-
+public class Valoracion {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "El nombre del género es obligatorio")
-    private String nombre;
+    @NotNull(message = "Debe introducir una puntuación")
+    private Double puntuacion;
 
-    // ACCION("Acción"), 
-    // COMEDIA("Comedia"), 
-    // DRAMA("Drama"), 
-    // AVENTURA("Aventura"),
-    // CIENCIA_FICCION("Ciencia Ficción"),
-    // TERROR("Terror"),
-    // FANTASIA("Fantasía"),
-    // THRILLER("Thriller"),
-    // ROMANCE("Romance"),
-    // MISTERIO("Misterio");    
+    private String comentario;
+
+    // private Usuario usuario;
 }
