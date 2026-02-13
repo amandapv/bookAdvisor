@@ -21,4 +21,3 @@ public class Formulario {
     @AssertTrue(message = "Debe aceptar las condiciones")
     private boolean condiciones;
 }
-

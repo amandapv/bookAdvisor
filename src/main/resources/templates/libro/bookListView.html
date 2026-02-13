@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{/fragmentos.html::cabecera}"></head>
+<body>
+    <nav th:replace="~{/fragmentos.html::menu}"></nav>
+
+    <h1>LIBROS</h1>
+
+    <form action="#" method="post" th:action="@{/public/libros/findByTitulo}" th:object="${libroForm}">
+        <label> Buscar por palabra en título: 
+            <input type="text" name="titulo" th:field="*{titulo}">
+        </label>
+        <input type="submit" value="Buscar">
+    </form>
+
+    <br>
+    
+    <label>Filtro por género: 
+        <select id="genero" onchange="changeGenero();">
+            <option value="">Todos</option>
+            <option th:each="gen : ${T(com.example.bookAdvisor.domain.Genero).values()}"
+                    th:value="${gen}" th:text="${gen.nombreVisible}"
+                    th:selected="${generoSeleccionado != null && gen.name() == generoSeleccionado.name()}">
+            </option>
+        </select>
+
+        <script>
+          function changeGenero() {
+            const select = document.getElementById("genero");
+            if (select.value == "") {
+              window.location.href = "/public/libros/";
+            } else {
+              window.location.href = "/public/libros/findByGenero/"+select.value;
+            }
+          }
+        </script>
+    </label>
+
+
+    <a href="/public/libros">Restablecer</a>
+
+
+    <table class="table table-striped border shadow-sm">
+        <thead>
+            <tr>
+                <th>ID</th> <th>Portada</th>
+                <th>Título</th> <th>Autor</th> <th>Sinopsis</th>
+                <th>Género</th> <th>Editar</th> <th>Borrar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="libro :${listaLibros}">
+                <td th:text="${libro.id}">ID</td>
+                <td> 
+                    <a th:href="@{/public/libros/{id}(id=${libro.id})}"> 
+                        <img th:src="@{/portadas/{nombre}(nombre=${libro.portada})}" alt="portada" style="width: 80px; height: auto;"> 
+                    </a>
+                </td>
+                <td> 
+                    <a th:href="@{/public/libros/{id}(id=${libro.id})}" th:text="${libro.titulo}">titulo</a>
+                </td>
+                <td th:text="${libro.autor}">autor</td>
+                <td th:text="${libro.sinopsis}">sinopsis</td>
+                <td th:text="${libro.idioma.nombreVisible}">idioma</td>
+                <td> 
+                    <a th:href="@{/public/libros/editar/{id} (id=${libro.id})}" class="btn btn-warning">Editar</a>
+                </td>
+                <td> 
+                    <a th:href="@{/public/libros/borrar/{id} (id=${libro.id})}" class="btn btn-danger">Borrar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br><br>
+
+    <div th:if="${msg!=null}">
+        <p class="alert alert-primary" role="alert" th:text="${msg}">errores</p>
+    </div>
+
+    <a th:href="@{/public/libros/nuevo}" class="btn btn-secondary ms-2">Nuevo libro</a>
+
+</body>
+</html>

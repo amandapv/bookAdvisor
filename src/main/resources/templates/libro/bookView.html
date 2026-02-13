@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{/fragmentos.html::cabecera}"></head>
+
+<body>
+    <nav th:replace="~{/fragmentos.html::menu}"></nav>
+
+    <div class="container mt-5"></div>
+
+    <h3 class="mb-4">Datos del libro: <span th:text="${libro.titulo}"></span></h3>
+
+    <div class="row gx-5 align-items-start">
+
+        <div class="col-md-4 text-center">
+            <a th:href="@{/public/libros/{id}(id=${libro.id})}">
+                <img th:src="@{/portadas/{nombre}(nombre=${libro.portada})}" alt="portada"
+                    class="img-fluid rounded shadow border p-1 mb-4 mb-md-0" style="width: 80%; max-width: 300px; height: auto;">
+            </a>
+        </div>
+
+        <div class="col-md-8">
+            <table class="table table-striped border shadow-sm">
+                <tbody>
+                    <tr>
+                        <td class="fw-bold">Id:</td>
+                        <td th:text="${libro.id}">Id</td>
+                    </tr>
+                    <tr>
+                        <td class="fw-bold">Titulo:</td>
+                        <td th:text="${libro.titulo}">Título</td>
+                    </tr>
+                    <tr>
+                        <td class="fw-bold">Año:</td>
+                        <td th:text="${libro.anho}">Año</td>
+                    </tr>
+                    <tr>
+                        <td class="fw-bold">Género:</td>
+                        <td th:text="${libro.genero.nombreVisible}">Género</td>
+                    </tr>
+                    <tr>
+                        <td class="fw-bold">Autor:</td>
+                        <td th:text="${libro.autor}">Autor</td>
+                    </tr>
+                    <tr>
+                        <td class="fw-bold">Idioma:</td>
+                        <td th:text="${libro.idioma.nombreVisible}">Idioma</td>
+                    </tr>
+                    <tr>
+                        <td class="fw-bold">Sinopsis:</td>
+                        <td th:text="${libro.sinopsis}">Sinopsis</td>
+                    </tr>
+                    <tr>
+                        <td class="fw-bold">Fecha de alta:</td>
+                        <td th:text="${#temporals.format(libro.fechaAlta, 'dd/MM/yyyy')}">Fecha alta</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="mt-4">
+                <a th:href="@{/public/libros/editar/{id} (id=${libro.id})}" class="btn btn-warning">Editar</a>
+                <a th:href="@{/public/libros/borrar/{id} (id=${libro.id})}" class="btn btn-danger">Borrar</a> <br><br>
+                <a th:href="@{/public/libros/}" class="btn btn-secondary ms-2">Volver</a>
+            </div>
+
+        </div>
+
+    </div>
+
+    </div>
+
+</body>

@@ -1,22 +1,31 @@
 package com.example.bookAdvisor.controllers;
 
 import java.time.LocalDate;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.bookAdvisor.services.LibroService;
+
 @Controller // anotación controlador
 
 @RequestMapping("/public") //el resto del proyecto parte de /public (NO SÉ SI ES NECESARIO, SIGO LA ESTRUCTURA DE LA FOTO DEL EJEMPLO)
 
+
 public class HomeController {
     
+    @Autowired
+    private LibroService libroService;
+    private String txtMsg;
+
+
     @GetMapping({"", "/", "/home"})
     public String showHome(
-        @RequestParam(required = false, defaultValue = "") String userName,
-        Model model) {
+        @RequestParam(required = false, defaultValue = "") String userName, Model model) {
         
         model.addAttribute("userName", userName);
         

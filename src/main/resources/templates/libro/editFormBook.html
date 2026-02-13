@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{/fragmentos.html::cabecera}"></head>
+<body>
+    <nav th:replace="~{/fragmentos.html::menu}"></nav>
+    
+    <h2>Editar libro</h2>
+
+    <form action="#" method="post" th:action="@{/public/libros/editar/{id}/submit(id=${libroForm.id})}" th:object="${libroForm}">
+
+        <input type="hidden" id="id" th:field="*{id}">
+
+        <label>Título:
+            <input type="text" id="titulo" th:field="*{titulo}">
+            <span th:classappend="${#fields.hasErrors('titulo')} ? 'cssError'" th:errors="*{titulo}"></span>
+        </label> <br><br>
+
+        <label>Año:
+            <input type="number" id="anho" th:field="*{anho}">
+            <span th:classappend="${#fields.hasErrors('anho')} ? 'cssError'" th:errors="*{anho}"></span>
+        </label> <br><br>
+
+
+        <label>Género:
+            <select id="genero" th:field="*{genero}">
+                <option 
+                    th:each="gen : ${T(com.example.bookAdvisor.domain.Genero).values()}" 
+                    th:value="${gen}" th:text="${gen.nombreVisible}">
+                </option>
+            </select>
+        </label> <br><br>
+
+        <label>Autor:
+            <input type="text" id="autor" th:field="*{autor}">
+            <span th:classappend="${#fields.hasErrors('autor')} ? 'cssError'" th:errors="*{autor}"></span>
+        </label> <br><br>
+
+        <label>Idioma
+            <select id="idioma" th:field="*{idioma}">
+                <option
+                    th:each="idi : ${T(com.example.bookAdvisor.domain.Idioma).values()}"
+                    th:value="${idi}" th:text="${idi.nombreVisible}">
+                </option>
+            </select>
+        </label> <br><br>
+
+        <label>Sinopsis:
+            <textarea id="sinopsis" th:field="*{sinopsis}"></textarea>
+            <span th:classappend="${#fields.hasErrors('sinopsis')} ? 'cssError'" th:errors="*{sinopsis}"></span>
+        </label> <br><br>
+
+        <!-- <label>Fecha de alta: -->
+            <!-- <input type="date" id="fechaAlta" th:field="*{fechaAlta}"> -->
+            <input type="hidden" id="fechaAlta" th:field="*{fechaAlta}">
+            <!-- <span th:classappend="${#fields.hasErrors('fechaAlta')} ? 'cssError'" th:errors="*{fechaAlta}"></span> -->
+        <!-- </label> <br><br> -->
+
+        <input type="hidden" id="portada" th:field="*{portada}"> <!-- en oculto para que no pierda la portada, otra opción es que se pueda editar ésta -->
+
+        <input type="submit" value="Enviar"> <br><br>
+        
+        <a th:href="@{/public/libros}">Volver</a>
+    </form>
+</body>
