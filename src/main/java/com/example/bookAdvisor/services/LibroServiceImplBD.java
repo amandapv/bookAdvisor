@@ -15,80 +15,53 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.bookAdvisor.domain.Genero;
 import com.example.bookAdvisor.domain.Libro;
 import com.example.bookAdvisor.domain.LibroDTO;
+import com.example.bookAdvisor.repositories.LibroRepository;
 
 @Service
-public class LibroServiceImpl implements LibroService{
+public class LibroServiceImplBD implements LibroService{
+
+    @Autowired
+    private LibroRepository libroRepository;
 
     @Autowired
     private ModelMapper modelMapper; //llamo a mi modelMapper definido en la clase ModelMapperConfig en la carpeta config para poder convertir entidades a DTOs
 
-    private List<Libro> repositorio = new ArrayList<>();
     private final Path DIRECTORIO_PORTADAS = Paths.get("portadas");
 
     //CRUD
     public List<Libro> obtenerTodos() {
-        return repositorio;
+        return libroRepository.findAll();
     }
 
     public Libro obtenerPorId(long id) throws RuntimeException {
-        for (Libro libro : repositorio) {
-            if (libro.getId() == id) {
-                return libro;
-            }
-        }
-        throw new RuntimeException("No se ha encontrado el libro con ese ID");
+        return libroRepository.findById(id).orElseThrow( ()-> new RuntimeException("No se ha encontrado el libro con ese ID") );
     }
 
     public Libro añadir (Libro libro) throws RuntimeException {
-        if (repositorio.contains(libro)) {
-            throw new RuntimeException("Libro ya encontrado");
+        if (libro.getId() != null && libroRepository.existsById(libro.getId())) {
+            throw new RuntimeException("Libro ya existente");
         }
-        repositorio.add(libro);
-        return libro;
+        return libroRepository.save(libro);
     }
 
     public Libro editar (Libro libro) throws RuntimeException {
-        int pos = repositorio.indexOf(libro);
-        if (pos == -1) {
-            throw new RuntimeException("Libro no encontrado");
-        }
-        repositorio.set(pos, libro);
-        return libro;
+        obtenerPorId(libro.getId()); //si no lo encuentra ya saltará una excepción
+        return libroRepository.save(libro);
     }
 
     public void borrar (Long id) throws RuntimeException {
-        Libro libro = this.obtenerPorId(id);
-
-        if (libro != null) {
-            repositorio.remove(libro);
-        } else {
-            throw new RuntimeException("No se ha podido encontrar el curso");
-        }
+        obtenerPorId(id); //si no lo encuentra ya saltará una excepción
+        libroRepository.deleteById(id);
     }
 
 
     //Filtros
     public List<Libro> buscarPorTituloLibro(String tituloLibro) {
-        List<Libro> encontrados = new ArrayList<>();
-
-        for (Libro libro : repositorio) {
-            if (libro.getTitulo().toLowerCase().contains(tituloLibro.toLowerCase())) {
-                encontrados.add(libro);
-            }
-        }
-        return encontrados;
+        return libroRepository.findByTituloContainingIgnoreCase(tituloLibro);
     }
 
-
     public List<Libro> buscarPorGeneroLibro(Genero genero) {
-        List<Libro> encontrados = new ArrayList<>();
-
-        for (Libro libro : repositorio) {
-            if (libro.getGenero() == genero) {
-                encontrados.add(libro);
-            }
-        }
-        return encontrados;
+        return libroRepository.findByGenero(genero);
     }
 
 

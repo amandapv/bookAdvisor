@@ -2,8 +2,6 @@ package com.example.bookAdvisor.domain;
 
 import java.time.LocalDate;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Entity;
@@ -52,7 +50,7 @@ public class Libro {
     @ManyToOne
     private Genero genero;
 
-
+    
     // Constructor manual SIN la fecha para hacer automáticamente el LocalDate.now()
     public Libro(Long id, String titulo, int anho, Genero genero, String autor, Idioma idioma, String sinopsis) {
         this.id = id;
