@@ -66,4 +66,18 @@ public class ValoracionServiceImplBD implements ValoracionService{
     //     //añadir la valoración en caso de que todo vaya bien
     //     return valoracionRepository.save(new Valoracion(null, usuario, libro, 0, ""));
     // }
+
+    //método para realizar la puntuación media de cada libro
+    public Libro puntuacionMediaPorLibro(Libro libro) {
+        List<Valoracion> valoraciones = valoracionRepository.findByLibroId(libro.getId()); 
+        Double sumaPuntuacion = 0.0;
+
+        for(Valoracion valoracion : valoraciones) {
+            sumaPuntuacion =+ valoracion.getPuntuacion();
+        }
+
+        Double media = sumaPuntuacion / valoraciones.size();
+        libro.setPuntuacionMedia(media);
+        return libro;
+    }
 }

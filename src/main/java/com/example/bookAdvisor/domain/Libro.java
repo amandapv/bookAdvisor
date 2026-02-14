@@ -46,6 +46,8 @@ public class Libro {
 
     private String portada = "DEFAULT.png"; //así si no establezco una portada por defecto se establece la por defecto
 
+    private Double puntuacionMedia;
+
     @NotNull(message = "Debes seleccionar un género")
     @ManyToOne
     private Genero genero;

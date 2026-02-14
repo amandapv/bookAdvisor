@@ -14,4 +14,7 @@ public interface ValoracionRepository extends JpaRepository<Valoracion, Long>{
 
     //método para buscar Valoración por usuario y libro
     Valoracion findByLibroIdAndUsuarioId(long idUsuario, long idLibro);
+
+    //método para buscar las valoraciones por el ID del libro
+    List<Valoracion> findByLibroId(long idLibro);
 }
