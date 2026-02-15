@@ -12,5 +12,5 @@ public class LibroDTO {
     private String autor;
     private String sinopsis;
     private Idioma idioma;
-    private Double puntuacion;
+    private Double puntuacionMedia;
 }

@@ -1,10 +1,14 @@
 package com.example.bookAdvisor.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.example.bookAdvisor.domain.Genero;
 import com.example.bookAdvisor.domain.Libro;
+import com.example.bookAdvisor.domain.LibroDTO;
+import com.example.bookAdvisor.services.GeneroService;
 import com.example.bookAdvisor.services.LibroService;
 
 import jakarta.validation.Valid;
@@ -30,12 +34,17 @@ public class LibroController {
     @Autowired
     private LibroService libroService;
 
+    @Autowired
+    private GeneroService generoService;
+
     private String txtMsg;
 
     @GetMapping({"", "/"})
     public String showListLibros(Model model) {
-        model.addAttribute("listaLibros", libroService.obtenerTodos());
+        List<Libro> listaLibros = libroService.obtenerTodos();
+        model.addAttribute("listaLibros", libroService.convertLibroToDto(listaLibros)); //le paso los datos del DTO de libro
         model.addAttribute("libroForm", new Libro()); //hay que añadirle el libro porque en el archivo libroListView lo requiere para el filtro de la busqueda
+        model.addAttribute("listaGeneros",generoService.obtenerTodos());
         if (txtMsg != null) {
             model.addAttribute("msg", txtMsg);
             txtMsg = null;
@@ -48,6 +57,14 @@ public class LibroController {
     public String showElementLibro(@PathVariable Long id, Model model) {
         try {
             Libro libro = libroService.obtenerPorId(id);
+            // List<Libro> listaLibros = libroService.obtenerTodos(); //obtengo la lista de libros para convertirlos a DTO y poder usar la variable puntuacionMedia
+            Double puntuacionMedia;
+            if (libro.getCantidadVotantes() == 0) {
+                puntuacionMedia = 0.0;
+            } else {
+                puntuacionMedia = libro.getSumaPuntos() / libro.getCantidadVotantes();
+            }
+            model.addAttribute("puntuacionMedia", puntuacionMedia);
             model.addAttribute("libro", libro);
         } catch (Exception e) {
             txtMsg = e.getMessage();
@@ -59,13 +76,15 @@ public class LibroController {
     @GetMapping("/nuevo")
     public String showNewLibro(Model model) {
         model.addAttribute("libroForm", new Libro());
+        model.addAttribute("listaGeneros",generoService.obtenerTodos());
         return "libro/newLibroView";
     }
 
     @PostMapping("/nuevo/submit")
-    public String showNewSubmit(@Valid @ModelAttribute("libroForm") Libro libroForm, BindingResult bindingResul, @RequestParam("portadaFichero") MultipartFile fichero) {
+    public String showNewSubmit(@Valid @ModelAttribute("libroForm") Libro libroForm, BindingResult bindingResul, @RequestParam("portadaFichero") MultipartFile fichero, Model model) {
         if (bindingResul.hasErrors()) {
             // model.addAttribute("libroForm", libroForm); // No hace falta añadir al model si el nombre coincide con @ModelAttribute
+            model.addAttribute("listaGeneros",generoService.obtenerTodos()); //si al validar el formulario, tengo que volver a enviarle los datos del género para que los tenga
             return "/libro/newLibroView";
         }
         try {
@@ -85,7 +104,8 @@ public class LibroController {
         try {
             Libro libro = libroService.obtenerPorId(id);
             model.addAttribute("libroForm", libro);
-            model.addAttribute("generoSeleccionado", libro.getGenero());
+            model.addAttribute("listaGeneros",generoService.obtenerTodos());
+            model.addAttribute("generoSeleccionado", libro.getGenero().getNombre());
         } catch (Exception e) {
             txtMsg= e.getMessage();
             return "redirect:/public/libros/";
@@ -125,17 +145,19 @@ public class LibroController {
 
     @PostMapping("/findByTitulo")
     public String showFindByTematica(@ModelAttribute("libroForm") Libro libro, Model model) {
-        model.addAttribute("listaLibros", libroService.buscarPorTituloLibro(libro.getTitulo()));
+        List<Libro> listaLibros = libroService.buscarPorTituloLibro(libro.getTitulo()); 
+        model.addAttribute("listaLibros", libroService.convertLibroToDto(listaLibros));
         return "libro/bookListView";
     }
 
     @GetMapping("/findByGenero/{genero}")
     public String showFindByGenero(@PathVariable Genero genero, Model model) {
-        model.addAttribute("listaLibros", libroService.buscarPorGeneroLibro(genero));
-        model.addAttribute("generoSeleccionado", genero);
+        List<Libro> listaLibros = libroService.buscarPorGeneroLibro(genero);
+        model.addAttribute("listaLibros", libroService.convertLibroToDto(listaLibros));
+        model.addAttribute("listaGeneros",generoService.obtenerTodos());
+        model.addAttribute("generoSeleccionado", genero.getNombre());
         model.addAttribute("libroForm", new Libro());
         return "libro/bookListView";
     }
-
 
 }

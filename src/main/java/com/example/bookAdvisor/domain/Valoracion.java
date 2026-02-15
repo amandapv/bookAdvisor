@@ -28,6 +28,7 @@ public class Valoracion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "Debes seleccionar un usuarie")
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     @OnDelete(action = OnDeleteAction.CASCADE)

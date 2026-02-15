@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.bookAdvisor.domain.Genero;
 import com.example.bookAdvisor.domain.Libro;
+import com.example.bookAdvisor.domain.LibroDTO;
 
 public interface LibroService {
     List<Libro> obtenerTodos();
@@ -23,4 +24,10 @@ public interface LibroService {
     List<Libro> buscarPorGeneroLibro(Genero genero);
 
     String añadirPortadaLibro(MultipartFile fichero);
+
+    List<LibroDTO> convertLibroToDto (List<Libro>listaLibros);
+
+    void sumaValoracion(Libro libro, Double valoracionPersona);
+
+    void restaValoracion(Libro libro, Double valoracionPersona);
 }

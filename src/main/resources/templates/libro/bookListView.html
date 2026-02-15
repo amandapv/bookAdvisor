@@ -18,9 +18,9 @@
     <label>Filtro por género: 
         <select id="genero" onchange="changeGenero();">
             <option value="">Todos</option>
-            <option th:each="gen : ${T(com.example.bookAdvisor.domain.Genero).values()}"
-                    th:value="${gen}" th:text="${gen.nombreVisible}"
-                    th:selected="${generoSeleccionado != null && gen.name() == generoSeleccionado.name()}">
+            <option th:each="gen : ${listaGeneros}"
+                    th:value="${gen.id}" th:text="${gen.nombre}"
+                    th:selected="${generoSeleccionado != null && gen.nombre == generoSeleccionado}">
             </option>
         </select>
 
@@ -45,7 +45,8 @@
             <tr>
                 <th>ID</th> <th>Portada</th>
                 <th>Título</th> <th>Autor</th> <th>Sinopsis</th>
-                <th>Género</th> <th>Editar</th> <th>Borrar</th>
+                <th>Idioma</th> <th>Puntos</th> 
+                <th>Editar</th> <th>Borrar</th> <th>Valoraciones</th>
             </tr>
         </thead>
         <tbody>
@@ -62,11 +63,15 @@
                 <td th:text="${libro.autor}">autor</td>
                 <td th:text="${libro.sinopsis}">sinopsis</td>
                 <td th:text="${libro.idioma.nombreVisible}">idioma</td>
+                <td th:text="${libro.puntuacionMedia}">puntuación media</td>
                 <td> 
                     <a th:href="@{/public/libros/editar/{id} (id=${libro.id})}" class="btn btn-warning">Editar</a>
                 </td>
                 <td> 
                     <a th:href="@{/public/libros/borrar/{id} (id=${libro.id})}" class="btn btn-danger">Borrar</a>
+                </td>
+                <td> 
+                    <a th:href="@{/public/valoraciones/{idLibro} (idLibro=${libro.id})}" class="btn btn-primary">Valoraciones</a>
                 </td>
             </tr>
         </tbody>

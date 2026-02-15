@@ -9,8 +9,8 @@ import com.example.bookAdvisor.domain.Valoracion;
 
 public interface ValoracionRepository extends JpaRepository<Valoracion, Long>{
 
-    //método para buscar Usuarios
-    List<Usuario> findByUsuario(Usuario usario);
+    //método para buscar valoraciones de un usuario
+    List<Valoracion> findByUsuarioId(long idUsuario);
 
     //método para buscar Valoración por usuario y libro
     Valoracion findByLibroIdAndUsuarioId(long idUsuario, long idLibro);

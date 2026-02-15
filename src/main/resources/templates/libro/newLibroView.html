@@ -8,10 +8,8 @@
         
         <h1>Nuevo libro</h1> <br>
         
-        <label>Id:
-            <input type="number" id="id" th:field="*{id}">
-            <span th:classappend="${#fields.hasErrors('id')} ? 'cssError'" th:errors="*{id}"></span>
-        </label> <br><br>
+        
+        <input type="hidden" id="id" th:field="*{id}">
 
         <label>Título:
             <input type="text" id="titulo" th:field="*{titulo}">
@@ -39,7 +37,7 @@
                 <option
                     th:each="idi : ${T(com.example.bookAdvisor.domain.Idioma).values()}"
                     th:value="${idi}" th:text="${idi.nombreVisible}">
-                </option>
+                </option>listaGeneros
             </select>
             <span th:classappend="${#fields.hasErrors('idioma')} ? 'cssError'" th:errors="*{idioma}"></span>
         </label> <br><br>
@@ -48,8 +46,8 @@
             <select id="genero" th:field="*{genero}">
                 <option value="">Seleccione un género</option>
                 <option
-                    th:each="gen : ${T(com.example.bookAdvisor.domain.Genero).values()}" 
-                    th:value="${gen}" th:text="${gen.nombreVisible}">
+                    th:each="gen : ${listaGeneros}" 
+                    th:value="${gen.id}" th:text="${gen.nombre}">
                 </option>
             </select>
             <span th:classappend="${#fields.hasErrors('genero')} ? 'cssError'" th:errors="*{genero}"></span>
@@ -62,7 +60,7 @@
         </label> <br><br>
         
         <input type="submit" value="Enviar"> <br><br>
-
+id
         <a th:href="@{/public/libros}">Volver</a>
         
     </form>

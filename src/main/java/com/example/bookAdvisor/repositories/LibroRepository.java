@@ -14,4 +14,7 @@ public interface LibroRepository extends JpaRepository<Libro, Long>{
 
     //método para buscar por el género de un libro
     List<Libro> findByGenero(Genero genero);
+
+    //método para saber si existe un genero en un libro, es decir si hay géneros asociados a un libro
+    boolean existsByGenero(Genero genero);
 }

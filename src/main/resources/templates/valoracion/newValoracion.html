@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{/fragmentos.html::cabecera}"></head>
+<body>
+    <nav th:replace="~{/fragmentos.html::menu}"></nav>
+
+    <h1>Nueva Valoración</h1>
+    <h3 th:text="${libro.titulo}"></h3>
+    
+    <form action="#" method="post" th:action="@{/public/valoraciones/nuevo/{idLibro}/submit (idLibro=${libro.id})}" th:object="${valoracionForm}">
+
+        <input type="hidden" id="id" th:field="*{id}" />
+
+        <label>Puntuación (0-10):
+            <input type="number" id="puntuacion" th:field="*{puntuacion}">
+            <span th:classappend="${#fields.hasErrors('puntuacion')} ? 'cssError'" th:errors="*{puntuacion}"></span>
+        </label> <br><br>
+
+        <label>Comentarios:
+            <input type="text" id="comentario" th:field="*{comentario}">
+        </label><br><br>
+
+        <label>Usuarie
+            <select id="usuario" th:field="*{usuario}">
+                <option value="">Seleccione un usuarix</option>
+                <option 
+                    th:each=" usuario : ${listaUsuarios}"
+                    th:value="${usuario.id}" th:text="${usuario.nombre}">
+                </option>
+            </select>
+            <span th:classappend="${#fields.hasErrors('usuario')} ? 'cssError'" th:errors="*{usuario}"></span>
+        </label> <br><br>
+
+        <input type="submit" value="Enviar"> 
+        
+        <br><br>
+
+        <a th:href="@{/public/valoraciones/{idLibro} (idLibro=${libro.id})}">Volver</a>
+
+    </form>
+</body>

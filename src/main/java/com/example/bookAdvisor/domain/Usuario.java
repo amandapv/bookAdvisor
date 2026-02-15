@@ -3,16 +3,18 @@ package com.example.bookAdvisor.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @AllArgsConstructor
@@ -29,6 +31,7 @@ public class Usuario {
     @NotBlank(message = "Debe introducir un nombre")
     private String nombre;
 
-    @ManyToMany
-    private List<Libro> libros = new ArrayList<>();
+    @ToString.Exclude
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<Valoracion> valoraciones = new ArrayList<>();
 }

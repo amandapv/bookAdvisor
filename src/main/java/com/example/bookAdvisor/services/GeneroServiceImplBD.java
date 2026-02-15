@@ -7,12 +7,16 @@ import org.springframework.stereotype.Service;
 
 import com.example.bookAdvisor.domain.Genero;
 import com.example.bookAdvisor.repositories.GeneroRepository;
+import com.example.bookAdvisor.repositories.LibroRepository;
 
 @Service
 public class GeneroServiceImplBD implements GeneroService{
     
     @Autowired
     private GeneroRepository generoRepository;
+
+    @Autowired
+    private LibroRepository libroRepository;
 
     public List<Genero> obtenerTodos() {
         return generoRepository.findAll();
@@ -35,7 +39,10 @@ public class GeneroServiceImplBD implements GeneroService{
     }
 
     public void borrar (long id) {
-        obtenerPorId(id);
+        Genero genero = obtenerPorId(id);
+        if (libroRepository.existsByGenero(genero)) { //Comprobar si hay libros asociados a este género
+            throw new RuntimeException("No se puede eliminar, hay libros asociados a este género");
+        }
         generoRepository.deleteById(id);
     }
     

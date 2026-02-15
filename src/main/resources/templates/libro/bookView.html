@@ -35,24 +35,36 @@
                         <td th:text="${libro.anho}">Año</td>
                     </tr>
                     <tr>
-                        <td class="fw-bold">Género:</td>
-                        <td th:text="${libro.genero.nombreVisible}">Género</td>
-                    </tr>
-                    <tr>
                         <td class="fw-bold">Autor:</td>
                         <td th:text="${libro.autor}">Autor</td>
-                    </tr>
-                    <tr>
-                        <td class="fw-bold">Idioma:</td>
-                        <td th:text="${libro.idioma.nombreVisible}">Idioma</td>
                     </tr>
                     <tr>
                         <td class="fw-bold">Sinopsis:</td>
                         <td th:text="${libro.sinopsis}">Sinopsis</td>
                     </tr>
                     <tr>
-                        <td class="fw-bold">Fecha de alta:</td>
+                        <td class="fw-bold">Idioma:</td>
+                        <td th:text="${libro.idioma.nombreVisible}">Idioma</td>
+                    </tr>
+                    <tr>
+                        <td class="fw-bold">Fecha de Registro:</td>
                         <td th:text="${#temporals.format(libro.fechaAlta, 'dd/MM/yyyy')}">Fecha alta</td>
+                    </tr>
+                    <tr>
+                        <td class="fw-bold">Cantidad de Votantes:</td>
+                        <td th:text="${libro.cantidadVotantes}">Cantidad votantes</td>
+                    </tr>
+                    <tr>
+                        <td class="fw-bold">Suma de Puntos:</td>
+                        <td th:text="${libro.sumaPuntos}">Suma puntos</td>
+                    </tr>
+                    <tr>
+                        <td class="fw-bold">Puntos:</td>
+                        <td th:text="${puntuacionMedia}">Puntos</td>
+                    </tr>
+                    <tr>
+                        <td class="fw-bold">Género:</td>
+                        <td th:text="${libro.genero.nombre}">Género</td>
                     </tr>
                 </tbody>
             </table>

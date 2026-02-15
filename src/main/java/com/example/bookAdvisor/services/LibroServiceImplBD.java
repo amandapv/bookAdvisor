@@ -93,9 +93,34 @@ public class LibroServiceImplBD implements LibroService{
     public List<LibroDTO> convertLibroToDto (List<Libro>listaLibros) {
         List<LibroDTO> listaLibrosDTO = new ArrayList<>();
         for(Libro libro : listaLibros) {
-            listaLibrosDTO.add(modelMapper.map(libro, LibroDTO.class)); 
+            LibroDTO libroDTO = modelMapper.map(libro, LibroDTO.class); 
+            //manejo que si la cantidad de votantes es 0 me ponga que la puntación media es 0.0 ya que si no me da NaN
+            if (libro.getCantidadVotantes() == 0) {
+                libroDTO.setPuntuacionMedia(0.0);
+            } else {
+                libroDTO.setPuntuacionMedia(libro.getSumaPuntos() / libro.getCantidadVotantes()); //calculo la media de la puntuación
+            }
+            listaLibrosDTO.add(libroDTO); 
         }
         return listaLibrosDTO;
+    }
+
+    //método para sumar valoraciones
+    public void sumaValoracion(Libro libro, Double valoracionPersona) {
+        Double nuevaPuntuacion = libro.getSumaPuntos() + valoracionPersona;
+        libro.setSumaPuntos(nuevaPuntuacion);
+        int numeroVotos = libro.getCantidadVotantes() + 1;
+        libro.setCantidadVotantes(numeroVotos);
+        libroRepository.save(libro);
+    }
+
+    //método para restar valoraciones
+    public void restaValoracion(Libro libro, Double valoracionPersona) {
+        Double nuevaPuntuacion = libro.getSumaPuntos() - valoracionPersona;
+        libro.setSumaPuntos(nuevaPuntuacion);
+        int numeroVotos = libro.getCantidadVotantes() - 1;
+        libro.setCantidadVotantes(numeroVotos);
+        libroRepository.save(libro);
     }
 
 }
